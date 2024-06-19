@@ -7,8 +7,8 @@
  * @author
  *         - Sebastian Castro - 2359435
  *         - Karol Burbano - 2359305
- *         -Veronica Mujica - 2359406
- *         -Jeidy Murillo - 2359310 
+ *         - Veronica Mujica - 2359406
+ *         - Jeidy Murillo - 2359310 
  */
 
 import java.util.HashMap;
@@ -27,7 +27,23 @@ public class App {
      * Realiza validación de entradas para asegurar que las calificaciones sean números válidos.
      */
     static void ingresarEstudiantes() {
-        
+        try {
+            System.out.println("--------------------------------------------");
+            System.out.print("Ingrese la cantidad de estudiantes a registrar: ");
+            int cantidad = Integer.parseInt(scanner.nextLine());  // Leer como línea completa y luego convertir a entero
+
+            for (int i = 0; i < cantidad; i++) {
+                System.out.println("Ingrese el nombre del estudiante:");
+                String nombre = scanner.nextLine();
+                System.out.println("Ingrese la calificación del estudiante:");
+                double calificacion = Double.parseDouble(scanner.nextLine());  // Leer como línea completa y luego convertir a doble
+                estudiantes.put(nombre, calificacion);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida. Por favor, ingrese un número válido.");
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error: " + e.getMessage());
+        }
     }
 
     /**
