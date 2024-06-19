@@ -1,19 +1,15 @@
-/**
- * @file App.java
- * @brief Programa para registrar estudiantes y calcular promedios.
- * Este programa permite al usuario registrar estudiantes con sus respectivas calificaciones,
- * calcular el promedio de las calificaciones y mostrar aquellos estudiantes cuya calificación
- * es superior al promedio.
- * @author
- *         - Sebastian Castro - 2359435
- *         - Karol Burbano - 2359305
- *         - Veronica Mujica - 2359406
- *         - Jeidy Murillo - 2359310 
- */
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+/**
+ * @file App.java
+ * @brief Programa para registrar estudiantes y calcular promedios.
+ * 
+ * Este programa permite al usuario registrar estudiantes con sus respectivas calificaciones,
+ * calcular el promedio de las calificaciones y mostrar aquellos estudiantes cuya calificación
+ * es superior al promedio.
+ */
 
 public class App {
 
@@ -77,7 +73,29 @@ public class App {
      * es superior a dicho promedio.
      */
     static void promedioSuperior() {
-        
+        if (estudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+            return;
+        }
+
+        try {
+            // Calcular promedio de calificaciones
+            double suma = 0;
+            for (Double calificacion : estudiantes.values()) {
+                suma += calificacion;
+            }
+            double promedio = suma / estudiantes.size();
+
+            // Mostrar estudiantes con calificación superior al promedio
+            System.out.println("Estudiantes con calificación superior al promedio:");
+            for (Map.Entry<String, Double> entry : estudiantes.entrySet()) {
+                if (entry.getValue() > promedio) {
+                    System.out.println(entry.getKey());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al mostrar los estudiantes: " + e.getMessage());
+        }
     }
 
     /**
