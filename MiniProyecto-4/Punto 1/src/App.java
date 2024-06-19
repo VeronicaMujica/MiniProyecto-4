@@ -52,7 +52,22 @@ public class App {
      * Calcula y muestra el promedio de las calificaciones de todos los estudiantes registrados.
      */
     static void calcularPromedio() {
-    
+        if (estudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+            return;
+        }
+
+        try {
+            // Calcular promedio de calificaciones
+            double suma = 0;
+            for (Double calificacion : estudiantes.values()) {
+                suma += calificacion;
+            }
+            double promedio = suma / estudiantes.size();
+            System.out.println("Promedio de calificaciones: " + promedio);
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al calcular el promedio: " + e.getMessage());
+        }
     }
 
     /**
