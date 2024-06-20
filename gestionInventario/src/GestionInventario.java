@@ -127,6 +127,40 @@ public class GestionInventario {
         }
     }
 
+    // Método para eliminar un producto del inventario
+    public static void inventarioEliminar() {
+        // Verificar si el inventario está vacío
+        if (inventario.isEmpty()) {
+            System.out.println("...En estos momentos no hay productos registrados...");
+            return;
+        }
+
+        try {
+            System.out.println("Ingrese el código del producto que deseas eliminar: ");
+            // Leer el código del producto desde la entrada estándar
+            int codigo = scanner.nextInt();
+            if (codigo < 0) {
+                System.out.println("El código no puede ser negativo. Operación cancelada.");
+                return;
+            }
+            scanner.nextLine(); // Descartar el salto de línea
+
+            // Verificar si el inventario contiene el código del producto ingresado
+            if (inventario.containsKey(codigo)) {
+                // Si el código existe en el inventario, eliminar el producto
+                inventario.remove(codigo);
+                //guardarInventarioEnArchivo(); // Guardar después de eliminar
+                System.out.println("El producto ha sido eliminado");
+            } else {
+                System.out.println("No existe un producto con ese código");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, ingrese los datos correctamente.");
+            scanner.nextLine(); // Limpiar el buffer del scanner
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
 
     // Método para eliminar un producto del inventario
     public static void inventarioEliminar() {
@@ -165,6 +199,14 @@ public class GestionInventario {
 
 
 
+    // Método para buscar un producto en el inventario por su código
+    public static Producto buscarProducto(int codigo) {
+        if (codigo < 0) {
+            System.out.println("El código no puede ser negativo.");
+            return null;
+        }
+        return inventario.get(codigo);
+    }
 
     // Método para mostrar el menú de opciones y gestionar la interacción con el usuario
     public static void menu() {
@@ -207,7 +249,22 @@ public class GestionInventario {
                     inventarioEliminar();
                     break;
                 case 4:
-                    
+                    try {
+                        System.out.println("Ingrese el código del producto que deseas buscar: ");
+                        int codigo = scanner.nextInt();
+                        scanner.nextLine(); // Descartar el salto de línea
+                        // Realiza la búsqueda
+                        Producto producto = buscarProducto(codigo);
+                        if (producto != null) {
+                            // En caso de encontrarlo, muestra el resultado
+                            System.out.println("Producto encontrado: " + producto);
+                        } else {
+                            System.out.println("Producto no encontrado.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Entrada inválida. Por favor, ingrese un código válido.");
+                        scanner.nextLine(); // Limpiar el buffer del scanner
+                    }
                     break;
                 case 5:
                     //inventarioMostrar();
