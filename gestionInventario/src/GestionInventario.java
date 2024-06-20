@@ -128,6 +128,41 @@ public class GestionInventario {
     }
 
 
+    // Método para eliminar un producto del inventario
+    public static void inventarioEliminar() {
+        // Verificar si el inventario está vacío
+        if (inventario.isEmpty()) {
+            System.out.println("...En estos momentos no hay productos registrados...");
+            return;
+        }
+
+        try {
+            System.out.println("Ingrese el código del producto que deseas eliminar: ");
+            // Leer el código del producto desde la entrada estándar
+            int codigo = scanner.nextInt();
+            if (codigo < 0) {
+                System.out.println("El código no puede ser negativo. Operación cancelada.");
+                return;
+            }
+            scanner.nextLine(); // Descartar el salto de línea
+
+            // Verificar si el inventario contiene el código del producto ingresado
+            if (inventario.containsKey(codigo)) {
+                // Si el código existe en el inventario, eliminar el producto
+                inventario.remove(codigo);
+                //guardarInventarioEnArchivo(); // Guardar después de eliminar
+                System.out.println("El producto ha sido eliminado");
+            } else {
+                System.out.println("No existe un producto con ese código");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, ingrese los datos correctamente.");
+            scanner.nextLine(); // Limpiar el buffer del scanner
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
+
 
 
 
@@ -169,7 +204,7 @@ public class GestionInventario {
                     inventarioActualizar();
                     break;
                 case 3:
-                    //inventarioEliminar();
+                    inventarioEliminar();
                     break;
                 case 4:
                     
