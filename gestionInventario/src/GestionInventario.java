@@ -127,6 +127,7 @@ public class GestionInventario {
         }
     }
 
+
     // Método para eliminar un producto del inventario
     public static void inventarioEliminar() {
         // Verificar si el inventario está vacío
@@ -161,6 +162,7 @@ public class GestionInventario {
             System.out.println("Error inesperado: " + e.getMessage());
         }
     }
+
 
 
 
