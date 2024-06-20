@@ -1,4 +1,8 @@
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -25,6 +29,18 @@ public class GestionInventario {
     }
 
 
+
+    // Método para guardar el inventario en un archivo
+    public static void guardarInventarioEnArchivo() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("inventario.txt"))) {
+            // Iterar sobre cada entrada en el inventario y escribirla en el archivo
+            for (Map.Entry<Integer, Producto> entry : inventario.entrySet()) {
+                writer.write(entry.getValue().toString() + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Error al guardar el inventario: " + e.getMessage());
+        }
+    }
 
     // Método para añadir un nuevo producto al inventario
     public static void inventarioAñadir() {
@@ -259,7 +275,7 @@ public class GestionInventario {
                     inventarioMostrar();
                     break;
                 case 6:
-                    //guardarInventarioEnArchivo();
+                    guardarInventarioEnArchivo();
                     break;
                 case 7:
                     System.out.println("...Saliendo del inventario...");
