@@ -1,7 +1,11 @@
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-
+import java.util.Map;
 import java.util.Scanner;
 
 public class GestionInventario {
@@ -25,6 +29,18 @@ public class GestionInventario {
     }
 
 
+
+    // Método para guardar el inventario en un archivo
+    public static void guardarInventarioEnArchivo() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("inventario.txt"))) {
+            // Iterar sobre cada entrada en el inventario y escribirla en el archivo
+            for (Map.Entry<Integer, Producto> entry : inventario.entrySet()) {
+                writer.write(entry.getValue().toString() + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Error al guardar el inventario: " + e.getMessage());
+        }
+    }
 
     // Método para añadir un nuevo producto al inventario
     public static void inventarioAñadir() {
@@ -127,7 +143,6 @@ public class GestionInventario {
         }
     }
 
-
     // Método para eliminar un producto del inventario
     public static void inventarioEliminar() {
         // Verificar si el inventario está vacío
@@ -163,8 +178,40 @@ public class GestionInventario {
         }
     }
 
+    // Método para mostrar todos los productos del inventario
+    public static void inventarioMostrar() {
+        // Verificar si el inventario está vacío
+        if (inventario.isEmpty()) {
+            System.out.println("...En estos momentos no hay productos registrados...");
+            return;
+        }
+        // Si el inventario no está vacío, imprimir el encabezado
+        
+        System.out.println("    Inventario de productos registrados    ");
+        System.out.println("--------------------------------------------");
+        System.out.println("-Esta representado de la siguiente forma ");
+        System.out.println("CÓDIGO, NOMBRE, CANTIDAD EN STOCK, PRECIO");
+        System.out.println("--------------------------------------------");
+        // Iterar a través de cada entrada (par clave-valor) en el inventario
+        // la clave es un Integer (el código del producto) y el valor es un objeto Producto.
+        for (Map.Entry<Integer, Producto> entry : inventario.entrySet()) {
+            
+            // Obtener el valor (producto) asociado a la clave (código del producto)
+            Producto producto = entry.getValue();
+            
+            // Imprimir la representación en cadena del producto (usando su método toString())
+            System.out.println(producto);
+        }
+    }
 
-
+    // Método para buscar un producto en el inventario por su código
+    public static Producto buscarProducto(int codigo) {
+        if (codigo < 0) {
+            System.out.println("El código no puede ser negativo.");
+            return null;
+        }
+        return inventario.get(codigo);
+    }
 
     // Método para mostrar el menú de opciones y gestionar la interacción con el usuario
     public static void menu() {
@@ -207,13 +254,28 @@ public class GestionInventario {
                     inventarioEliminar();
                     break;
                 case 4:
-                    
+                    try {
+                        System.out.println("Ingrese el código del producto que deseas buscar: ");
+                        int codigo = scanner.nextInt();
+                        scanner.nextLine(); // Descartar el salto de línea
+                        // Realiza la búsqueda
+                        Producto producto = buscarProducto(codigo);
+                        if (producto != null) {
+                            // En caso de encontrarlo, muestra el resultado
+                            System.out.println("Producto encontrado: " + producto);
+                        } else {
+                            System.out.println("Producto no encontrado.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Entrada inválida. Por favor, ingrese un código válido.");
+                        scanner.nextLine(); // Limpiar el buffer del scanner
+                    }
                     break;
                 case 5:
-                    //inventarioMostrar();
+                    inventarioMostrar();
                     break;
                 case 6:
-                    //guardarInventarioEnArchivo();
+                    guardarInventarioEnArchivo();
                     break;
                 case 7:
                     System.out.println("...Saliendo del inventario...");
