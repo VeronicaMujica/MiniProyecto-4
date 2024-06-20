@@ -1,11 +1,12 @@
 
+import java.util.HashMap;
 import java.util.InputMismatchException;
-
 import java.util.Scanner;
 
 public class GestionInventario {
 
-
+    // Estructura de datos para almacenar los productos del inventario
+    static HashMap<Integer, Producto> inventario = new HashMap<>();
     
     // Scanner para leer la entrada del usuario
     static Scanner scanner = new Scanner(System.in);
@@ -22,7 +23,64 @@ public class GestionInventario {
         }
     }
 
+    
 
+    // Método para añadir un nuevo producto al inventario
+    public static void inventarioAñadir() {
+        try {
+            System.out.println("Ingrese el código del producto:");
+            int codigo = scanner.nextInt();
+            if (codigo < 0) {
+                System.out.println("El código no puede ser negativo. Operación cancelada.");
+                return;
+            }
+            scanner.nextLine(); // Descartar el salto de línea
+
+            // Verificar si ya existe un producto con el mismo código en el inventario
+            if (inventario.containsKey(codigo)) {
+                System.out.println("No se puede añadir ya existe un producto con el mismo código");
+            } else {
+                // Si el código no existe en el inventario, solicitar y leer los detalles del nuevo producto
+                System.out.println("Ingrese el nombre del producto:");
+                String nombre = scanner.nextLine();
+                System.out.println("Ingrese la cantidad en stock del producto:");
+                int cantidadStock = scanner.nextInt();
+                if (cantidadStock < 0) {
+                    System.out.println("La cantidad en stock no puede ser negativa. Operación cancelada.");
+                    return;
+                }
+                System.out.println("Ingrese el precio del producto:");
+                double precio = scanner.nextDouble();
+                if (precio < 0) {
+                    System.out.println("El precio no puede ser negativo. Operación cancelada.");
+                    return;
+                }
+                scanner.nextLine(); // Consumir el salto de línea
+                
+                // Crear un nuevo objeto Producto con los detalles ingresados
+                Producto producto = new Producto(codigo, nombre, cantidadStock, precio);
+                // Agregar el nuevo producto al inventario (almacenar en el HashMap)
+                inventario.put(codigo, producto);
+                //guardarInventarioEnArchivo(); // Guardar después de añadir
+                System.out.println("Producto ha sido añadido");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, ingrese los datos correctamente.");
+            scanner.nextLine(); // Limpiar el buffer del scanner
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
+
+
+    // Método para buscar un producto en el inventario por su código
+    public static Producto buscarProducto(int codigo) {
+        if (codigo < 0) {
+            System.out.println("El código no puede ser negativo.");
+            return null;
+        }
+        return inventario.get(codigo);
+    }
 
     // Método para mostrar el menú de opciones y gestionar la interacción con el usuario
     public static void menu() {
@@ -56,7 +114,7 @@ public class GestionInventario {
 
             switch (opcion) {
                 case 1:
-                    //inventarioAñadir();
+                    inventarioAñadir();
                     break;
                 case 2:
                     //inventarioActualizar();
@@ -65,7 +123,7 @@ public class GestionInventario {
                     //inventarioEliminar();
                     break;
                 case 4:
-                
+                    
                     break;
                 case 5:
                     //inventarioMostrar();
