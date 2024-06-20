@@ -1,0 +1,4 @@
+789,Lapices,1000,1000.0
+456,lapicero,60,1500.0
+234,Lapicero,10,1000.0
+123,Cuaderno pegable,50,10500.0
